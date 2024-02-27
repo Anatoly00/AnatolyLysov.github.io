@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request
 import smtplib
+from dotenv import load_dotenv
+import os
 
-OWN_EMAIL = "everybodylimbo123@gmail.com"
-OWN_PASSWORD = "boos beaq ppkp srrx"
+load_dotenv()
+OWN_EMAIL = os.getenv("OWN_EMAIL")
+OWN_PASSWORD = os.getenv("OWN_PASSWORD")
 app = Flask(__name__)
 
 @app.route("/")
@@ -18,11 +21,7 @@ def contact():
         send_email(data["name"], data["email"], data["message"])
         return render_template("index.html", msg_sent=True)
     return render_template("index.html", msg_sent=False)
-    #     print(data["name"])
-    #     print(data["email"])
-    #     print(data["message"])
-    #     return render_template("index.html", msg_sent=True)
-    # return render_template("index.html", msg_sent=False)
+
 
 def send_email(name, email, message):
     email_message = f"Subject:New Message\n\nName: {name}\nEmail: {email}\nMessage: {message}"
